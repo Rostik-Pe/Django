@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{%block title%}Users{%endblock%}
+{% block content %}
+    <h1>Users</h1>
+    <table class="container table table-striped">
+        <thead>
+          <tr class="row">
+            <th class="col col-2">User</th>
+            <th class="col col-2">Email</th>
+            <th class="col col-1">Role</th>
+            <th class="col col-1">Is active</th>
+            <th class="col col-2">Created at</th>
+            <th class="col col-2">Updated at</th>
+            <th class="col col-2">Feature</th>
+          </tr>
+        </thead>
+        <tbody>            
+            {%for user in users%}
+            <tr class="row">
+                <td class="col col-2">
+                    {{user.first_name}}
+                    {{user.middle_name}}
+                    {{user.last_name}}
+                </td>
+                <td class="col col-2">
+                    {{user.email}}
+                </td>
+                <td class="col col-1">
+                    {% if user.role %}
+                        Admin
+                    {% else %}
+                        User
+                    {% endif %}
+                </td>
+                <td class="col col-1">
+                    {% if user.is_active %}
+                        Active
+                    {% else %}
+                        Not active
+                    {% endif %}
+                </td>
+                <td class="col col-2">
+                    {{user.created_at}}
+                </td>
+                <td class="col col-2">
+                    {{user.updated_at}}
+                </td>
+                <td class="col col-2">
+                    <a href={% url 'edit user' user.id %} class="btn btn-block btn-sm btn-warning">Edit</a>
+                    <a href={% url 'delete user' user.id %} class="btn btn-block btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {%endfor%}          
+        </tbody>
+    </table>
+{%endblock%}

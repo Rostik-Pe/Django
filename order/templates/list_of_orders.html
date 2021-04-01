@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block title %}My orders{% endblock %}
+{% block content %}
+    {% if user.role == 0 %}
+        <h1>My current orders</h1>
+        <table class="container table table-striped">
+            <thead>
+              <tr class="row">
+                <th class="col col-1">ID</th>
+                <th class="col col-5">Book</th>
+                <th class="col col-5">Due date</th>
+                <th class="col col-1">Feature</th>
+              </tr>
+            </thead>
+            <tbody>            
+                {%for order in orders%}
+                    {% if order.user == user and not order.end_at %}
+                        <tr class="row">
+                            <td class="col col-1">
+                                {{order.id}}
+                            </td>
+                            <td class="col col-5">
+                                {{order.book.name}}
+                            </td>
+                            <td class="col col-5">
+                                {{order.plated_end_at}}
+                            </td>
+                            <td class="col col-1">
+                                <a href={% url 'return book' order.id %} class="btn btn-block btn-sm btn-success">Return</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {%endfor%}          
+            </tbody>
+        </table>
+        <h1>My previous orders</h1>
+        <table class="container table table-striped">
+            <thead>
+              <tr class="row">
+                <th class="col col-1">ID</th>
+                <th class="col col-5">Book</th>
+                <th class="col col-5">Due date</th>
+                <th class="col col-1">Feature</th>
+              </tr>
+            </thead>
+            <tbody>            
+                {%for order in orders%}
+                    {% if order.user == user and not order.end_at %}
+                        <tr class="row">
+                            <td class="col col-1">
+                                {{order.id}}
+                            </td>
+                            <td class="col col-5">
+                                {{order.book.name}}
+                            </td>
+                            <td class="col col-5">
+                                {{order.plated_end_at}}
+                            </td>
+                            <td class="col col-1">
+                                Returned
+                            </td>
+                        </tr>
+                    {% endif %}
+                {%endfor%}          
+            </tbody>
+        </table>
+    {% else %}
+        <h1>List of orders</h1>
+        <a href={% url 'not returned books' %} class="btn btn-md btn-warning">Not returned books</a>
+        <table class="container table table-striped">
+            <thead>
+              <tr class="row">
+                <th class="col col-1">ID</th>
+                <th class="col col-3">User Email</th>
+                <th class="col col-3">Book</th>
+                <th class="col col-3">Due date</th>
+                <th class="col col-1">Returned</th>
+                <th class="col col-1">Feature</th>
+              </tr>
+            </thead>
+            <tbody>            
+                {%for order in orders%}
+                <tr class="row">
+                    <td class="col col-1">
+                        {{order.id}}
+                    </td>
+                    <td class="col col-3">
+                        {{order.user.email}}
+                    </td>
+                    <td class="col col-3">
+                        {{order.book.name}}
+                    </td>
+                    <td class="col col-3">
+                        {{order.plated_end_at}}
+                    </td>
+                    <td class="col col-1">
+                        {% if order.user == user and not order.end_at %}
+                            <a href={% url 'return book' order.id %} class="btn btn-block btn-sm btn-success">Return</a>
+                        {% else %}
+                            {% if order.end_at %}
+                                <p>Returned<p>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td class="col col-1">
+                        <a href={% url 'delete order' order.id %} class="btn btn-block btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {%endfor%}          
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

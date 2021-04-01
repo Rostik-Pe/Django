@@ -1,1 +1,3 @@
-# python-online-marathon_sprint_17
+## Django
+
+`python manage.py runserver`

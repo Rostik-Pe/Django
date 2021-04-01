@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{%block title%}Books{%endblock%}
+{% block content %}
+    <h1>Books</h1>
+    {% if user.role %}
+        <a href={% url 'new book' %} class="btn btn-success btn-lg">+ New book</a>
+    {% endif %}
+    <table class="container table table-striped">
+        <thead>
+          <tr class="row">
+            <th class="col col-2">Name of Book</th>
+            <th class="col col-2">Authors</th>
+            <th class="col col-6">Description</th>
+            <th class="col col-1">Count</th>
+            <th class="col col-1">Feature</th>
+          </tr>
+        </thead>
+        <tbody>            
+            {%for book in books%}
+            <tr class="row">
+                <td class="col col-2"><h5>{{book.name}}</h5></td>
+                <td class="col col-2">
+                    {% for author in book.authors.all %}
+                        <p>{{author.name}} {{author.surname}}</p>
+                    {% endfor %}
+                </td>
+                <td class="col col-6" style="text-align: justify">{{book.description}}</td>
+                <td class="col col-1">{{book.count}}</td>
+                <td class="col col-1">                    
+                    {% if user.role %}
+                        {% if book.count > 1 %}
+                            {% if book in ordered_books %}
+                                <i>Ordered</i>
+                            {% else %}
+                                <a href={% url 'new_order' book.id %} class="btn btn-block btn-sm btn-primary">Order</a>
+                            {% endif %}
+                        {% endif %}
+                        <a href={% url 'edit book' book.id %}  class="btn btn-block btn-sm btn-warning">Edit</a>
+                        <a href={% url 'delete book' book.id %} class="btn btn-block btn-sm btn-danger">Delete</a>
+                    {% else %}
+                        {% if book.count > 1 %}
+                            {% if book in ordered_books %}
+                                <i>Ordered</i>
+                            {% else %}
+                                <a href={% url 'new_order' book.id %} class="btn btn-block btn-sm btn-primary">Order</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+            {%endfor%}          
+        </tbody>
+    </table>
+{%endblock%}

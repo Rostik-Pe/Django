@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{%block title%}Authors{%endblock%}
+{% block content %}
+    <h1>Authors</h1>
+    {% if user.role %}
+        <a href={% url 'new author' %} class="btn btn-success btn-lg">+ New author</a>
+    {% endif %}    
+    <table class="container table table-striped">
+        <thead>
+          <tr class="row">
+            <th class="col col-7">Author</th>
+            <th class="col col-3">Books</th>
+            {% if user.role %}
+                <th class="col col-2">Feature</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>            
+            {%for author in authors%}
+            <tr class="row">
+                <td class="col col-7">
+                    {{author.name}}
+                    {{author.patronymic}}
+                    {{author.surname}}
+                </td>
+                <td class="col col-3">
+                    {% for book in author.books.all %}
+                        {{book.name}}<br>
+                    {% endfor %}
+                </td>
+                {% if user.role %}
+                    <td class="col col-2">
+                        <a href={% url 'edit author' author.id %}  class="btn btn-block btn-sm btn-warning">Edit</a>
+                        <a href={% url 'delete author' author.id %} class="btn btn-block btn-sm btn-danger">Delete</a>
+                    </td>
+                {% endif %}
+            </tr>
+            {%endfor%}          
+        </tbody>
+    </table>
+{%endblock%}

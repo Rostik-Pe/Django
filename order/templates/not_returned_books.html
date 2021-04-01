@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Not returned books</h1>
+    <a href={% url 'list of orders' %} class="btn btn-md btn-success">All orders</a>
+    <table class="container table table-striped">
+        <thead>
+          <tr class="row">
+            <th class="col col-1">ID</th>
+            <th class="col col-3">User Email</th>
+            <th class="col col-3">Book</th>
+            <th class="col col-3">Due date</th>
+            <th class="col col-1">Returned</th>
+            <th class="col col-1">Feature</th>
+          </tr>
+        </thead>
+        <tbody>            
+            {%for order in orders%}
+            <tr class="row">
+                <td class="col col-1">
+                    {{order.id}}
+                </td>
+                <td class="col col-3">
+                    {{order.user.email}}
+                </td>
+                <td class="col col-3">
+                    {{order.book.name}}
+                </td>
+                <td class="col col-3">
+                    {{order.plated_end_at}}
+                </td>
+                <td class="col col-1">
+                    {% if order.user == user %}
+                        <a href={% url 'return book' order.id %} class="btn btn-block btn-sm btn-success">Return</a>
+                    {% else %}
+                        {% if order.end_at %}
+                            <p>Returned<p>
+                        {% endif %}
+                    {% endif %} 
+                </td>
+                <td class="col col-1">
+                    <a href={% url 'delete order' order.id %} class="btn btn-block btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {%endfor%}          
+        </tbody>
+    </table>
+{% endblock %}
