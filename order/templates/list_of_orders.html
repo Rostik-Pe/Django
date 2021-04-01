@@ -45,7 +45,7 @@
             </thead>
             <tbody>            
                 {%for order in orders%}
-                    {% if order.user == user and not order.end_at %}
+                    {% if order.user == user and order.end_at %}
                         <tr class="row">
                             <td class="col col-1">
                                 {{order.id}}
