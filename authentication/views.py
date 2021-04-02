@@ -90,13 +90,11 @@ def access_denied(request):
     return render(request, 'access_denied.html')
 
 
-
 def register_user(request):
+    form = RegisterForm()
+    print(form)
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
             pass
-    else:
-        form = RegisterForm()
-
     return render(request, "register.html", {"form": form})

@@ -1,8 +1,37 @@
-{% extends 'base.html' %} {%block title%}Register{%endblock%} {% block content%}
-<h2>Register</h2>
-<form action="" method="post" class="form-group">
-    {% csrf_token %}
-    {{ form.as_p }}
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{%block title%}Register{% endblock %}
+{% block content %}
+
+<form method="post">
+        <h1 class="col-md-3 mb-0">Register</h1><br>
+        {% csrf_token %}
+        <div class="form-group col-md-3 mb-0">
+            {{form.first_name|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-3 mb-0">
+            {{form.middle_name|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-3 mb-0">
+            {{form.last_name|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-1 mb-0">
+            {{form.email|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-3 mb-0">
+            {{form.password|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-3 mb-0">
+            {{form.repeat_password|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-3 mb-0">
+            <button type="submit" class="btn btn-primary">Save</button>
+            {{ res }}
+        </div>
+</form>
+<!--<form action="" method="post" class="form-group">-->
+    <!--{% csrf_token %}-->
+    <!--{{ form.as_p }}-->
     <!--<p>-->
         <!--<label for="first_name">First name:</label>-->
         <!--<input-->
@@ -68,7 +97,7 @@
             <!--class="form-control"-->
         <!--/>-->
     <!--</p>-->
-    <button type="submit" class="btn btn-primary">Submit</button>
-    {{message}}
-</form>
+    <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+    <!--{{message}}-->
+<!--</form>-->
 {% endblock %}
