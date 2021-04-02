@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from . import forms
+
 
 urlpatterns = [
     path('', views.index, name='homepage'),
@@ -10,4 +12,5 @@ urlpatterns = [
     path('delete_user/<int:pk>', views.delete_user, name= 'delete user'),
     path('logged_out/', views.logout_user, name='logged_out'),
     path('access_denied/', views.access_denied, name='access denied'),
+    # path("", views.register_view, name="register view")
 ]

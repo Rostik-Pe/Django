@@ -5,6 +5,8 @@ from author.models import Author
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from .decorators import is_admin
+from django.http import HttpResponse
+from .forms import RegisterForm
 
 def index(request):
     all_books = len(Book.get_all())
@@ -14,28 +16,28 @@ def index(request):
         all_copies += book.count
     return render(request, 'index.html', {'all_books':all_books, 'all_authors':all_authors, 'all_copies':all_copies})
 
-def register_user(request):
-    message = ''
-    if request.method == 'POST':
-        first_name = request.POST['first_name']
-        middle_name = request.POST['middle_name']
-        last_name = request.POST['last_name']
-        email = request.POST['email']
-        password = request.POST['password']
-        repeat_password = request.POST['repeat_password']
-        if password == repeat_password:
-            user = CustomUser.create(email=email, 
-                            password=password, 
-                            first_name=first_name, 
-                            middle_name=first_name, 
-                            last_name=last_name)
-            if user:
-                message = "User successfully registered!"
-            else:
-                message = "User already exists!"
-        else:
-            message = "Passwords don't match!"
-    return render(request, 'register.html', {'message':message})
+# def register_user(request):
+#     message = ''
+#     if request.method == 'POST':
+#         first_name = request.POST['first_name']
+#         middle_name = request.POST['middle_name']
+#         last_name = request.POST['last_name']
+#         email = request.POST['email']
+#         password = request.POST['password']
+#         repeat_password = request.POST['repeat_password']
+#         if password == repeat_password:
+#             user = CustomUser.create(email=email,
+#                             password=password,
+#                             first_name=first_name,
+#                             middle_name=first_name,
+#                             last_name=last_name)
+#             if user:
+#                 message = "User successfully registered!"
+#             else:
+#                 message = "User already exists!"
+#         else:
+#             message = "Passwords don't match!"
+#     return render(request, 'register.html', {'message':message})
 
 def login_user(request):
     if request.method == 'POST':
@@ -88,3 +90,15 @@ def delete_user(request, pk):
 
 def access_denied(request):
     return render(request, 'access_denied.html')
+
+
+
+def register_user(request):
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            pass
+    else:
+        form = RegisterForm()
+    print(form)
+    return render(request, "register.html", {"form": form})

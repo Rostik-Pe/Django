@@ -1,70 +1,73 @@
 {% extends 'base.html' %} {%block title%}Register{%endblock%} {% block content%}
 <h2>Register</h2>
-<form method="post" class="form-group">
+<form action="" method="post" class="form-group">
     {% csrf_token %}
-    <p>
-        <label for="first_name">First name:</label>
-        <input
-            type="text"
-            name="first_name"
-            maxlength="20"
-            id="first_name"
-            class="form-control"
-        />
-    </p>
-    <p>
-        <label for="middle_name">Middle name:</label>
-        <input
-            type="text"
-            name="middle_name"
-            maxlength="20"
-            id="middle_name"
-            class="form-control"
-        />
-    </p>
-    <p>
-        <label for="last_name">Last name:</label>
-        <input
-            type="text"
-            name="last_name"
-            maxlength="20"
-            id="last_name"
-            class="form-control"
-        />
-    </p>
-    <p>
-        <label for="email">Email:</label>
-        <input
-            type="email"
-            name="email"
-            maxlength="100"
-            required=""
-            id="email"
-            class="form-control"
-        />
-    </p>
-    <p>
-        <label for="password">Password:</label>
-        <input
-            type="password"
-            name="password"
-            maxlength="128"
-            required=""
-            id="password"
-            class="form-control"
-        />
-    </p>
-    <p>
-        <label for="repeat_password">Repeat password:</label>
-        <input
-            type="password"
-            name="repeat_password"
-            maxlength="128"
-            required=""
-            id="repeat_password"
-            class="form-control"
-        />
-    </p>
+    {{ form.as_p }}
+    <!--<p>-->
+        <!--<label for="first_name">First name:</label>-->
+        <!--<input-->
+            <!--type="text"-->
+            <!--name="first_name"-->
+            <!--maxlength="20"-->
+            <!--id="first_name"-->
+            <!--class="form-control"-->
+
+        <!--/>-->
+    <!--</p>-->
+    <!--<p>-->
+        <!--<label for="middle_name">Middle name:</label>-->
+        <!--<input-->
+            <!--type="text"-->
+            <!--name="middle_name"-->
+            <!--maxlength="20"-->
+            <!--id="middle_name"-->
+            <!--class="form-control"-->
+        <!--/>-->
+    <!--</p>-->
+    <!--<p>-->
+        <!--<label for="last_name">Last name:</label>-->
+        <!--<input-->
+            <!--type="text"-->
+            <!--name="last_name"-->
+            <!--maxlength="20"-->
+            <!--id="last_name"-->
+            <!--class="form-control"-->
+        <!--/>-->
+    <!--</p>-->
+    <!--<p>-->
+        <!--<label for="email">Email:</label>-->
+        <!--<input-->
+            <!--type="email"-->
+            <!--name="email"-->
+            <!--maxlength="100"-->
+            <!--required=""-->
+            <!--id="email"-->
+            <!--class="form-control"-->
+
+        <!--/>-->
+    <!--</p>-->
+    <!--<p>-->
+        <!--<label for="password">Password:</label>-->
+        <!--<input-->
+            <!--type="password"-->
+            <!--name="password"-->
+            <!--maxlength="128"-->
+            <!--required=""-->
+            <!--id="password"-->
+            <!--class="form-control"-->
+        <!--/>-->
+    <!--</p>-->
+    <!--<p>-->
+        <!--<label for="repeat_password">Repeat password:</label>-->
+        <!--<input-->
+            <!--type="password"-->
+            <!--name="repeat_password"-->
+            <!--maxlength="128"-->
+            <!--required=""-->
+            <!--id="repeat_password"-->
+            <!--class="form-control"-->
+        <!--/>-->
+    <!--</p>-->
     <button type="submit" class="btn btn-primary">Submit</button>
     {{message}}
 </form>
