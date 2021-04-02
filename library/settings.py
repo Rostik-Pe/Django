@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'author',
     'book',
     'order',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -124,6 +125,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 try:
