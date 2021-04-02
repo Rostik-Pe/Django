@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import CustomUser
 from book.models import Book
 from author.models import Author
+from .forms import EditForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from .decorators import is_admin
@@ -69,19 +70,16 @@ def users(request):
 @is_admin
 def edit_user(request, pk):
     user = CustomUser.get_by_id(pk)
+    form = EditForm(user.to_dict())
     if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        middle_name = request.POST['middle_name']
-        role = request.POST['role']
         is_active = True if 'is_active' in request.POST.keys() else False
-        user.update(first_name=first_name,
-                    middle_name=middle_name,
-                    last_name=last_name,
-                    role=role,
+        user.update(first_name=request.POST['first_name'],
+                    middle_name=request.POST['last_name'],
+                    last_name=request.POST['middle_name'],
+                    role=request.POST['role'],
                     is_active=is_active)
         return redirect('users')
-    return render(request, 'edit_user.html', {'current_user':user})
+    return render(request, 'edit_user.html', {'form':form, 'current_user':user})
 
 @is_admin
 def delete_user(request, pk):
@@ -100,5 +98,5 @@ def register_user(request):
             pass
     else:
         form = RegisterForm()
-    print(form)
+
     return render(request, "register.html", {"form": form})
