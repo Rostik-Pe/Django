@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import BookForm
+from .forms import NewBookForm
 from .models import Book
 from author.models import Author
 from order.models import Order
@@ -11,8 +11,6 @@ from authentication.decorators import is_admin
 
 def list_of_books(request):
     books = list(Book.get_all())
-    # authors = [list(book.authors.all()) for book in books]
-    # zipped = zip(books, authors)
     ordered_books = [order.book for order in Order.get_all() if order.user == get_user(request) and not order.end_at]
     print(ordered_books)
     return render(request, 'list_of_books.html', {'books':books, 'ordered_books':ordered_books})
@@ -21,22 +19,19 @@ def list_of_books(request):
 @login_required(login_url='login')
 @is_admin
 def new_book(request):
+    form = NewBookForm()
     data = {}
-    all_authors = Author.get_all()
-    data['all_authors'] = all_authors
+    data['form'] = form
     if request.method == 'POST':
-        name = request.POST['name']
-        description = request.POST['description']
-        count = int(request.POST['count'])
-        authors = dict(request.POST)['authors']
-        book = Book.create(name, description, count, authors)
+        book = Book.create(name=request.POST['name'],
+                        description=request.POST['description'],
+                        count=int(request.POST['count']),
+                        authors=dict(request.POST)['all_authors'])
         if book:
-            data['res'] = 'Book has been added!'
-            return render(request, 'new_book.html', data)
+            data['message'] = 'Book has been added!'
         else:
-            data['res'] = 'Error!'
-            return render(request, 'new_book.html', data)
-        
+            form = NewBookForm(request.POST)
+            data['message'] = 'Error!'
     return render(request, 'new_book.html', data)
 
 
