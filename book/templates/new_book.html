@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {%block title%}New book{%endblock%}
 {% block content %}
-    <h2>New book</h2>
     <form method="post" class="form-group">
         {% csrf_token %}
-        <label for='name'>Name</lable>
+        {% comment %} <label for='name'>Name</lable>
         <input id='name' name='name' type='text' maxlength=128 value='{{book.name}}' class="form-control"><br>
         <label for='description'>Description</lable>
         <textarea id='description' name='description' class="form-control">{{book.description}}</textarea><br>
@@ -15,8 +15,21 @@
             {% for author in all_authors %}
                 <option value={{author.id}}>{{author.name}} {{author.surname}}</option>
             {% endfor %}
-        </select><br>
+        </select><br> {% endcomment %}
+        <h1 class="col-md-3 mb-0">New book</h1><br>
+        <div class="form-group col-md-3 mb-0">
+            {{form.name|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-3 mb-0">
+            {{form.description|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-3 mb-0">
+            {{form.count|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-3 mb-0">
+            {{form.all_authors|as_crispy_field}}
+        </div>
         <button type="submit" class="btn btn-primary">Save</button>
-        {{ res }}
+        {{ message }}
     </form>
 {% endblock %}

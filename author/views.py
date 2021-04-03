@@ -13,23 +13,22 @@ def list_of_authors(request):
 @login_required(login_url='login')
 @is_admin
 def new_author(request):
-    data = {}
     form = AuthorForm()
+    data = {}
     data['form'] = form
     if request.method == 'POST':
         form = AuthorForm(request.POST)
-        name =request.POST['name']
-        surname = request.POST['surname']
-        patronymic = request.POST['patronymic']
-        author = Author.create(name, surname, patronymic)
+        author = Author.create(name=request.POST['name'],
+                            surname=request.POST['surname'],
+                            patronymic=request.POST['patronymic'])
         if author:
             form = AuthorForm()
             data['form'] = form
-            data['res'] = 'Author has been added!'
+            data['message'] = 'Author has been added!'
         else:
             form = AuthorForm(request.POST)
             data['form'] = form
-            data['res'] = 'Error!'
+            data['message'] = 'Error!'
     return render(request, 'new_author.html', data)
 
 # @login_required(login_url='login')
@@ -55,8 +54,8 @@ def delete_author(request, pk):
 @login_required(login_url='login')
 @is_admin
 def edit_author(request, pk):
-    form = AuthorForm(request.POST)
     author = Author.get_by_id(pk)
+    form = AuthorForm(author.to_dict())
     if request.method == 'POST':
         author.update(name=request.POST['name'],
                       surname=request.POST['surname'],

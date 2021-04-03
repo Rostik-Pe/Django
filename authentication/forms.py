@@ -1,4 +1,3 @@
-from django.forms import ModelForm
 from authentication.models import CustomUser
 from django import forms
 

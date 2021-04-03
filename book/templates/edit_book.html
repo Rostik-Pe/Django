@@ -2,40 +2,41 @@
 {% load crispy_forms_tags %}
 {%block title%}Edit{%endblock%}
 {% block content %}
-    <h2>Edit</h2>
+
     <form method="post" class='form-group'>
+        <h1 class="col-md-3 mb-0">Edit</h1><br>
         {% csrf_token %}
-        <div class="form-control">
-            {{form.name|as_crispy_field}}
+        <div class="form-group col-md-3 mb-0">
+            {{form_edit.name|as_crispy_field}}
         </div>
-        <div class="form-control">
-            {{form.description|as_crispy_field}}
+        <div class="form-group col-md-3 mb-0">
+            {{form_edit.description|as_crispy_field}}
         </div>
-        <div class="form-control">
-            {{form.count|as_crispy_field}}
+        <div class="form-group col-md-3 mb-0">
+            {{form_edit.count|as_crispy_field}}
         </div>
+        <div class="form-group col-md-3 mb-0">
         <button type="submit" class='btn btn-primary'>Save</button>
         {{ res }}
+        </div>
     </form><hr>
     <form method="post" class='form-group'>
         {% csrf_token %}
-        <label for='authors'>Authors of book</lable><br>
-        <select class='form-control' id='authors' name='authors' multiple>
-            {% for author in authors %}
-                <option value={{author.id}}>{{author.name}} {{author.surname}}</option>
-            {% endfor %}
-        </select><br>
+        <div class="form-group col-md-3 mb-0">
+            {{form_remove.authors|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-3 mb-0">
         <button type="submit" name='remove' class='btn btn-primary'>Remove</button>
+        </div>
     </form><hr>
     <form method="post" class='form-group'>
         {% csrf_token %}
-        <label for='all_authors'>All authors</lable><br>
-        <select class='form-control' id='all_authors' name='all_authors' multiple>
-            {% for author in all_authors %}
-                <option value={{author.id}}>{{author.name}} {{author.surname}}</option>
-            {% endfor %}
-        </select><br>
+        <div class="form-group col-md-3 mb-0">
+            {{form_add.all_authors|as_crispy_field}}
+        </div>
+        <div class="form-group col-md-3 mb-0">
         <button type="submit" name='add' class='btn btn-primary'>Add to book</button>
+        </div>
     </form>
 
 {% endblock %}
