@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import CustomUser
 from book.models import Book
 from author.models import Author
-from .forms import EditForm
+from .forms import EditForm, LoginForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from .decorators import is_admin
@@ -18,6 +18,7 @@ def index(request):
     return render(request, 'index.html', {'all_books':all_books, 'all_authors':all_authors, 'all_copies':all_copies})
 
 def login_user(request):
+    form = LoginForm()
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
@@ -27,12 +28,13 @@ def login_user(request):
                 login(request, user)
                 return redirect('list of books')
             else:
+                form = LoginForm(request.POST)
                 message = 'User is not active!'
-                return render(request, 'login.html', {'message':message})
+                return render(request, 'login.html', {'form':form, 'message':message})
         else:
             message = 'Invalid email or password!'
-            return render(request, 'login.html', {'message':message})
-    return render(request, 'login.html')
+            return render(request, 'login.html', {'form':form, 'message':message})
+    return render(request, 'login.html', {'form':form})
 
 def logout_user(request):
     logout(request)
