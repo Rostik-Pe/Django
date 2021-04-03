@@ -71,9 +71,20 @@ def access_denied(request):
 
 def register_user(request):
     form = RegisterForm()
-    print(form)
+    message = ""
     if request.method == "POST":
         form = RegisterForm(request.POST)
-        if form.is_valid():
-            pass
-    return render(request, "register.html", {"form": form})
+        password = request.POST['password']
+        repeat_password = request.POST['repeat_password']
+        if password == repeat_password:
+            if form.is_valid():
+                user = CustomUser.create(email=request.POST['email'],
+                                password=password,
+                                first_name=request.POST['first_name'],
+                                middle_name=request.POST['middle_name'],
+                                last_name=request.POST['last_name'])
+
+                message = "User successfully registered!"
+            else:
+                message = "Passwords don't match!"
+    return render(request, "register.html", {"form": form, "message":message})

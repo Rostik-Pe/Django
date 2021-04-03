@@ -31,17 +31,17 @@ def new_author(request):
             data['message'] = 'Error!'
     return render(request, 'new_author.html', data)
 
-@login_required(login_url='login')
-@is_admin
-def edit_author(request, pk):
-    author = Author.get_by_id(pk)
-    if request.method == 'POST':
-        name = request.POST['name']
-        surname = request.POST['surname']
-        patronymic = request.POST['patronymic']
-        author.update(name=name, surname=surname, patronymic=patronymic)
-    print(author)
-    return render(request, 'edit_author.html', {'author':author})
+# @login_required(login_url='login')
+# @is_admin
+# def edit_author(request, pk):
+#     author = Author.get_by_id(pk)
+#     if request.method == 'POST':
+#         name = request.POST['name']
+#         surname = request.POST['surname']
+#         patronymic = request.POST['patronymic']
+#         author.update(name=name, surname=surname, patronymic=patronymic)
+#     print(author)
+#     return render(request, 'edit_author.html', {'author':author})
 
 
 @login_required(login_url='login')
@@ -49,3 +49,18 @@ def edit_author(request, pk):
 def delete_author(request, pk):
     Author.delete_by_id(pk)
     return redirect('list of authors')
+
+
+@login_required(login_url='login')
+@is_admin
+def edit_author(request, pk):
+    author = Author.get_by_id(pk)
+    form = AuthorForm(author.to_dict())
+    if request.method == 'POST':
+        author.update(name=request.POST['name'],
+                      surname=request.POST['surname'],
+                      patronymic=request.POST['patronymic'])
+    print(author)
+    return render(request, 'edit_author.html', {'author': author,
+                                                'form': form
+                                                })
